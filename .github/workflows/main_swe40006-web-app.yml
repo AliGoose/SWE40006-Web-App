@@ -1,20 +1,25 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy PHP app to Azure Web App - SWE40006-Web-App
+name: Feature Development Workflow
 
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - '*'
 
 jobs:
-  build:
+  feature-development:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Check if tests should be run
+        run: |
+            if [[ $GITHUB_REF == "refs/heads/test" || $GITHUB_REF == "refs/heads/main" ]]; then
+                echo "Tests will be run for this branch."
+            else
+                echo "No tests will be run for this branch."
+                exit 0
+            fi
+
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -23,19 +28,33 @@ jobs:
 
       - name: Check if composer.json exists
         id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: 'composer.json'
+        run: |
+          if [ -f composer.json ]; then
+            echo "composer.json found"
+            echo "files_exists=true" >> $GITHUB_ENV
+          else
+            echo "composer.json not found"
+            echo "files_exists=false" >> $GITHUB_ENV
+          fi
+        
+      - name: Install Composer Dependencies
+        if: env.files_exists == 'true'
+        run: composer install
+        
+      - name: Run PHPUnit Tests
+        run: ./vendor/bin/phpunit
 
-      - name: Run composer install if composer.json exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: php-app
-          path: .
+  merge-to-main:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/pull/') && github.event.action == 'synchronize'
+    steps:
+      - name: Merge Test Branch into Main
+        run: |
+          # Merge the test branch into the main branch
+          git checkout main
+          git pull origin main
+          git merge --no-ff $GITHUB_HEAD_REF
+          git push origin main
 
   deploy:
     runs-on: ubuntu-latest
@@ -58,3 +77,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A431B0A89C94D4FBBD9CE57849F8B38 }}
           package: .
+        
