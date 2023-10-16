@@ -33,14 +33,8 @@ jobs:
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit Tests
-        run: |
-            if [[ $GITHUB_REF == "refs/heads/test" || $GITHUB_REF == "refs/heads/main" ]]; then
-                echo "Tests will be run for this branch."
-                ./vendor/bin/phpunit
-            else
-                echo "No tests will be run for this branch."
-                exit 0
-            fi
+        run:
+          ./vendor/bin/phpunit
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
