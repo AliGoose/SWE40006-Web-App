@@ -1,9 +1,14 @@
 name: Feature Development Workflow
 
 on:
-  push:
+  pull_request:
     branches:
-      - '*'
+      - 'test'
+      - 'main'
+    types:
+      - opened
+      - closed
+      
 
 jobs:
   build:
@@ -45,7 +50,7 @@ jobs:
 
   merge-to-test:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/pull/') && github.event.action == 'synchronize'
+    if: startsWith(github.ref, 'refs/pull/') && github.event.action == 'synchronize' && github.event.pull_request.merged == true
     steps:
       - name: Merge Feature Branch into Test
         run: |
@@ -57,7 +62,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test' && github.event.action == 'synchronize'
+    if: github.ref == 'refs/heads/test' && github.event.action == 'synchronize' && github.event.pull_request.merged == true
     needs: build
     environment:
       name: 'Production'
