@@ -42,18 +42,6 @@ jobs:
           name: php-app
           path: .
 
-  merge-to-main:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - name: Merge Test Branch into Main
-        run: |
-          # Merge the test branch into the main branch
-          git checkout main
-          git pull origin main
-          git merge --no-ff $GITHUB_HEAD_REF
-          git push origin main
-
   deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'

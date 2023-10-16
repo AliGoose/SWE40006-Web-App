@@ -43,18 +43,6 @@ jobs:
           name: php-app
           path: .
 
-  merge-to-test:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - name: Merge Feature Branch into Test
-        run: |
-          # Merge the feature branch into the test branch
-          git checkout test
-          git pull origin test
-          git merge --no-ff $GITHUB_HEAD_REF
-          git push origin test
-
   deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
