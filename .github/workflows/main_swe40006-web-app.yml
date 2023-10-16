@@ -33,6 +33,7 @@ jobs:
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Upload artifact for deployment job
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@v2
         with:
           name: php-app
