@@ -2,9 +2,14 @@
 <html>
 <head>
     <title>Calendar</title>
-    <link rel="stylesheet" type="text/css" href="styles/app-styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <?php include 'header.php'; ?>
+
+    <?php include 'menu.php'; ?>
+
+
     <h1>Calendar</h1>
     <form method="POST" class="calendar-form">
         <div>
@@ -27,7 +32,7 @@
 
     <div class="calendar-container">
         <?php
-        require '../src/calendarClass.php';
+        require 'src/calendarClass.php';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $year = $_POST['year'];
             $month = $_POST['month'];
@@ -36,5 +41,7 @@
         }
         ?>
     </div>
+
+    <?php include 'footer.php'; ?>
 </body>
 </html>
