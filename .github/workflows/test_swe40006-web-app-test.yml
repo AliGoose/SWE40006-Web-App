@@ -12,7 +12,7 @@ on:
       
 
 jobs:
-  build:
+  build_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,37 +34,20 @@ jobs:
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit Tests
-        run: |
-            if [[ $GITHUB_REF == "refs/heads/test" || $GITHUB_REF == "refs/heads/main" ]]; then
-                echo "Tests will be run for this branch."
-                ./vendor/bin/phpunit
-            else
-                echo "No tests will be run for this branch."
-                exit 0
-            fi
+        run:
+          ./vendor/bin/phpunit
 
       - name: Upload artifact for deployment job
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@v2
         with:
           name: php-app
           path: .
 
-  merge-to-test:
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/pull/') && github.event.action == 'synchronize' && github.event.pull_request.merged == true
-    steps:
-      - name: Merge Feature Branch into Test
-        run: |
-          # Merge the feature branch into the test branch
-          git checkout test
-          git pull origin test
-          git merge --no-ff $GITHUB_HEAD_REF
-          git push origin test
-
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test' && github.event.action == 'synchronize' && github.event.pull_request.merged == true
-    needs: build
+    if: github.event_name == 'push'
+    needs: build_test
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
