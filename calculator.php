@@ -2,9 +2,13 @@
 <html>
 <head>
     <title>Calculator</title>
-    <link rel="stylesheet" type="text/css" href="styles/app-styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <?php include 'header.php'; ?>
+
+    <?php include 'menu.php'; ?>
+
     <h1>Calculator</h1>
     <form method="POST" class="calculator-form">
         <input type="number" name="num1" required>
@@ -49,5 +53,7 @@
     }
     ?>
     </div>
+
+    <?php include 'footer.php'; ?>
 </body>
 </html>
