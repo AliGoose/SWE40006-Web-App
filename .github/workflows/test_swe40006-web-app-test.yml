@@ -6,6 +6,7 @@ on:
       - 'test'
     types:
       - opened
+      - synchronize
   push:
     branches:
       - 'test'
