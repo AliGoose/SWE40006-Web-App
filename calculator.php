@@ -21,7 +21,7 @@
     <div class="results">
     <?php
 
-    require '../src/calculatorClass.php';
+    require 'src/calculatorClass.php';
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $num1 = $_POST['num1'];

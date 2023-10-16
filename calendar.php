@@ -27,7 +27,7 @@
 
     <div class="calendar-container">
         <?php
-        require '../src/calendarClass.php';
+        require 'src/calendarClass.php';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $year = $_POST['year'];
             $month = $_POST['month'];
