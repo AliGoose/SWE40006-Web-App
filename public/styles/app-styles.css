@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    text-align: center;
+}
+
+/* styles for calendar page */
+.calendar-form div {
+    margin: 10px 0;
+}
+
+.calendar-form div label {
+    font-weight: bold;
+}
+
+.calendar-form input[type=submit] {
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.calendar-form input[type=submit]:hover {
+    border-color: brown;
+    background-color: brown;
+    color: #fff;
+}
+
+.calendar-container {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.calendar {
+    width: 100%;
+    height: 300px;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.calendar caption {
+    background-color: #333;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+}
+
+.calendar th {
+    background-color: #444;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.calendar td {
+    padding: 10px;
+    text-align: center;
+}
+
+.day {
+    background-color: #f0f0f0;
+}
+
+
+/* styles for calculator page */
+.calculator-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    transform: translate(-50%,-50%);
+    background-color: #464646;
+    padding: 20px;
+    border-radius: 10px;
+    border: 5px solid black;
+}
+
+.calculator-form input,
+.calculator-form select {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.calculator-form select {
+    display: block;
+    margin: 10px auto;
+    font-weight: bold;
+    border: none;
+    padding: 6px;
+    background-color: coral;
+}
+
+.calc-btn {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: 3px outset black;
+    border-radius: 10px;
+    background-color: #F59B32;
+}
+
+.calc-btn:active {
+    background-color: #D38319;
+    transform: scale(0.95);
+}
+
+.results {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 1.4em;
+    font-style: italic;
+    font-weight: 700;
+    color: crimson;
+}
