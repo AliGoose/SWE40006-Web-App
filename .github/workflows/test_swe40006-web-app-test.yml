@@ -9,15 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if tests should be run
-        run: |
-            if [[ $GITHUB_REF == "refs/heads/test" || $GITHUB_REF == "refs/heads/main" ]]; then
-                echo "Tests will be run for this branch."
-            else
-                echo "No tests will be run for this branch."
-                exit 0
-            fi
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -37,7 +28,14 @@ jobs:
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit Tests
-        run: ./vendor/bin/phpunit
+        run: |
+            if [[ $GITHUB_REF == "refs/heads/test" || $GITHUB_REF == "refs/heads/main" ]]; then
+                echo "Tests will be run for this branch."
+                ./vendor/bin/phpunit
+            else
+                echo "No tests will be run for this branch."
+                exit 0
+            fi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
