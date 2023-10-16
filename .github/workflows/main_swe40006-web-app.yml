@@ -3,11 +3,12 @@ name: Feature Development Workflow
 on:
   pull_request:
     branches:
-      - 'test'
       - 'main'
     types:
       - opened
-      - closed
+  push:
+    branches:
+      - 'main'
 
 jobs:
   build:
