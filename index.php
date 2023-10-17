@@ -11,8 +11,6 @@
 
     <?php include 'menu.php'; ?>
 
-    <!-- Your page content goes here -->
-
     <?php include 'footer.php'; ?>
 
 </body>
