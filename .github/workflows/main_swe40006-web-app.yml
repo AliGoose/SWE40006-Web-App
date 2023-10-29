@@ -65,30 +65,12 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_PROD }}
           package: .
-        
 
-      - name: Merge Code to Main
+      - name: Merge test -> main
         if: ${{ needs.build_test.result == 'success' }}
-        run: |
-          # Configure Git with user information
-          git config --global user.email "aligoose.martin@gmail.com"
-          git config --global user.name "AliGoose"
-
-          # Clone the repository
-          git clone AliGoose/SWE40006-Web-App.git
-
-          # Change to the repository directory
-          cd SWE40006-Web-App
-
-          # Checkout the 'main' branch
-          git checkout main
-
-          # Merge 'test' into 'main'
-          git merge origin/test
-
-          # Push the changes to 'main'
-          git push
-
-          # Clean up
-          cd ..
-          rm -rf SWE40006-Web-App
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: test
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
