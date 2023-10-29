@@ -68,11 +68,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: 'main'
       
       - name: Merge Test Branch into Main
-        run: git merge --no-ff ${{ github.ref }}
+        run: git merge --no-ff main
 
   deploy-to-prod:
     runs-on: ubuntu-latest
