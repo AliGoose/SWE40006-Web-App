@@ -57,9 +57,9 @@ jobs:
           package: .
 
       - name: 'Deploy to Azure Web App - Production'
+        id: deploy-to-webapp  
         if: ${{ needs.build_test.result == 'success' }}
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
         with:
           app-name: 'SWE40006-Web-App'
           slot-name: 'Production'
@@ -69,6 +69,7 @@ jobs:
   sync-branch:
     runs-on: ubuntu-latest
     needs: deploy
+    if: ${{needs.deploy.outputs.deploy-to-webapp.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@master
 
