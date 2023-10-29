@@ -2,6 +2,8 @@ name: Feature Development Workflow
 
 on:
   push:
+    branches:
+      - 'main'
 
 jobs:
   build_test:
@@ -40,42 +42,9 @@ jobs:
           name: php-app
           path: .
 
-  deploy-to-test:
+  deploy:
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'test')
     needs: build_test
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: php-app
-
-      - name: 'Deploy to Azure Web App - Test'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-test-webapp
-        with:
-          app-name: 'SWE40006-Web-App-Test'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TEST  }}
-          package: .
-
-  merge-to-main:
-    runs-on: ubuntu-latest
-    needs: [build_test, deploy-to-test]
-    if: success() && contains(github.ref, 'test')
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Merge Test Branch into Main
-        run: git merge --no-ff main
-
-  deploy-to-prod:
-    runs-on: ubuntu-latest
-    if: contains(github.ref, 'main')
-    needs: [build_test, merge-to-main]
 
     steps:
       - name: Download artifact from build job
