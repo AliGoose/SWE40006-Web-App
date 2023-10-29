@@ -72,7 +72,7 @@ jobs:
         run: |
           # Configure Git with user information
           git config --global user.email "aligoose.martin@gmail.com"
-          git config --global user.name "Lachlan"
+          git config --global user.name "AliGoose"
 
           # Clone the repository
           git clone https://github.com/AliGoose/SWE40006-Web-App.git
