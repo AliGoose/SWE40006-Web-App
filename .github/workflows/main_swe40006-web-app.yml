@@ -66,17 +66,15 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_PROD }}
           package: .
 
-  sync-branch:
+  merge-to-main:
     runs-on: ubuntu-latest
     needs: build_test
     if: ${{ needs.build_test.result == 'success' }}
     steps:
-      - uses: actions/checkout@master
-
-      - name: Merge test -> main
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          from_branch: test
-          target_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Merge Test Branch into Main
+        run: |
+          # Merge the test branch into the main branch
+          git checkout main
+          git pull origin main
+          git merge --no-ff $GITHUB_HEAD_REF
+          git push origin main
