@@ -46,7 +46,6 @@ jobs:
       
       - name: Merge Test Branch into Main
         run: |
-          git fetch test
           git checkout test
           git fetch origin main
           git checkout main
