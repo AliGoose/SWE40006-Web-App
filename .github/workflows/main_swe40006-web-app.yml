@@ -1,15 +1,9 @@
 name: Feature Development Workflow
 
 on:
-  pull_request:
-    branches:
-      - 'main'
-    types:
-      - opened
-      - synchronize
   push:
     branches:
-      - 'main'
+      - 'test'
 
 jobs:
   build_test:
@@ -37,8 +31,12 @@ jobs:
         run:
           ./vendor/bin/phpunit
 
+      - name: Set PHPUnit Success Status
+        id: set-phpunit-success
+        run: echo "::set-output name=phpunit-success::true"
+
+
       - name: Upload artifact for deployment job
-        if: github.event_name == 'push'
         uses: actions/upload-artifact@v2
         with:
           name: php-app
@@ -46,7 +44,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     needs: build_test
 
     steps:
@@ -55,7 +52,17 @@ jobs:
         with:
           name: php-app
 
-      - name: 'Deploy to Azure Web App'
+      - name: 'Deploy to Azure Web App - Test'
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-test-webapp
+        with:
+          app-name: 'SWE40006-Web-App-Test'
+          slot-name: 'Test'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C58CC9932967434BAFD03C015DDB4A49 }}
+          package: .
+
+      - name: 'Deploy to Azure Web App - Production'
+        if: needs.build_test.outputs.phpunit-success == 'true'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
