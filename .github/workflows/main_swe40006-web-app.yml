@@ -54,7 +54,6 @@ jobs:
 
       - name: 'Deploy to Azure Web App - Production'
         id: deploy-to-webapp  
-        if: ${{ needs.build_test.result == 'success' }}
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SWE40006-Web-App'
