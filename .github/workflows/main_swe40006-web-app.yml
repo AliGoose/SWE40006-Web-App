@@ -57,7 +57,7 @@ jobs:
         id: deploy-to-test-webapp
         with:
           app-name: 'SWE40006-Web-App-Test'
-          slot-name: 'Test'
+          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TEST  }}
           package: .
 
