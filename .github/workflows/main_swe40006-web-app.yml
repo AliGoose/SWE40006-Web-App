@@ -48,9 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     needs: build_test
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
