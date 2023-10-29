@@ -84,7 +84,7 @@ jobs:
           git checkout main
 
           # Merge 'test' into 'main'
-          git merge test
+          git merge origin/test
 
           # Push the changes to 'main'
           git push
