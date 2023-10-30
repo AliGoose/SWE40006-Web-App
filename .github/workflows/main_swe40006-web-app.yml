@@ -42,7 +42,7 @@ jobs:
 
       - name: Run PHPUnit Tests
         id: phpunit
-        run: ./vendor/bin/phpunit
+        run: php ./vendor/bin/phpunit
 
   deploy-to-test:
     runs-on: ubuntu-latest
