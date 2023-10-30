@@ -82,7 +82,7 @@ jobs:
   deploy-to-prod:
     runs-on: ubuntu-latest
     if: contains(github.ref, 'main')
-    needs: [build_test, merge-to-main]
+    needs: build_test
 
     steps:
       - name: Download artifact from build job
